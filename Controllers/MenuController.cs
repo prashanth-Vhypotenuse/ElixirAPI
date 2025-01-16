@@ -1,6 +1,6 @@
-﻿using ElixirAPI.Repository;
-using Microsoft.AspNetCore.Http;
+﻿using ElixirAPI.Handler;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace ElixirAPI.Controllers
 {
@@ -8,21 +8,26 @@ namespace ElixirAPI.Controllers
     [ApiController]
     public class MenuController : ControllerBase
     {
-        private readonly MenuRepository _menuRepository;
+        private readonly MenuHandler _menuHandler;
 
-        public MenuController(MenuRepository menuRepository) {
-            _menuRepository = menuRepository;
+        public MenuController(MenuHandler menuHandler) {
+            _menuHandler = menuHandler;
         }
 
         [HttpGet]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
         public async Task<IActionResult> GetMenu([FromQuery] string Type)
         {
+            Log.Information($"Menu Type {Type}");
             try
             {
-                var menu = await _menuRepository.GetMenu(Type);
+                var menu = await _menuHandler.GetMenuList(Type);
                 return Ok(menu);
             }
-            catch (Exception ex) { 
+            catch (Exception ex) {
+                Log.Error(ex.Message);
                 return StatusCode(500, ex.Message);
             }
         }

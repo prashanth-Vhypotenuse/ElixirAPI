@@ -12,6 +12,6 @@
         public string? LinkPath { get; set; }
         public string? LinkIcon { get; set; }
         public string? Type { get; set; }
-        public int? IsDeleted { get; set; }
+        public int? TypeId { get; set; }
     }
 }

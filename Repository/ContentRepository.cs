@@ -15,8 +15,6 @@ namespace ElixirAPI.Repository
 
         public async Task<IEnumerable<Content>> GetContent(string Type)
         {
-            //var query = "SELECT * FROM Content WHERE Type = @Type";
-
             using (var connection = _context.CreateConnection())
             {
                 var content = await connection.QueryAsync<Content>("[dbo].[GetContent]", new { Type }, commandType: CommandType.StoredProcedure);

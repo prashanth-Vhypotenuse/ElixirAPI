@@ -1,5 +1,6 @@
 ﻿using ElixirAPI.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace ElixirAPI.Controllers
 {
@@ -15,16 +16,19 @@ namespace ElixirAPI.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
         public async Task<IActionResult> GetContent([FromQuery] string Type)
         {
-            try
-            {
+            Log.Information($"Content Type {Type}");
+
+            try {
                 var content = await _contentRepository.GetContent(Type);
                 return Ok(content);
             }
-            catch (Exception ex)
-            {
-                // Error log
+            catch (Exception ex) {
+                Log.Error(ex.Message);
                 return StatusCode(500, ex.Message);
             }
         }

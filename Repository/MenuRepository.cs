@@ -15,18 +15,11 @@ namespace ElixirAPI.Repository
 
         public async Task<IEnumerable<Menu>> GetMenu(string Type)
         {
-            //var query = "SELECT * FROM Menu WHERE Type = @Type";
-
             using (var connection = _context.CreateConnection())
             {
-                var menuList = await connection.QueryAsync<Menu>("[dbo].[GetMenuList]", new { Type }, commandType: CommandType.StoredProcedure);
+                var menus = await connection.QueryAsync<Menu>("[dbo].[GetMenuList]", new { Type }, commandType: CommandType.StoredProcedure);
 
-                var menus = menuList.Where(m => m.ParentId == null).ToList();
-                foreach (var menu in menus)
-                {
-                    menu.SubMenus = menuList.Where(m => m.ParentId == menu.Id).ToList();
-                }
-                return menus;
+                return menus.ToList();
             }
         }
     }

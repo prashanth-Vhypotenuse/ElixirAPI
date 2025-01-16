@@ -9,7 +9,6 @@
         public int? ParentId { get; set; }
         public string? Icon { get; set; }
         public int? Type { get; set; }
-        public int? IsDeleted { get; set; }
         public List<Menu> SubMenus { get; set; } = new List<Menu>();
     }
 }
