@@ -1,5 +1,6 @@
 using ElixirAPI.Data;
 using ElixirAPI.Repository;
+using ElixirAPI.Handler;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
@@ -28,6 +29,7 @@ try {
     builder.Services.AddScoped<ContentRepository>();
     builder.Services.AddScoped<MenuRepository>();
     builder.Services.AddScoped<ContentTypeRepository>();
+    builder.Services.AddScoped<MenuHandler>();
     builder.Services.AddControllers();
     // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
     builder.Services.AddOpenApi();
